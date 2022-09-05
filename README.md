@@ -138,3 +138,15 @@ Refer below sample
 #### Refer https://jsonplaceholder.typicode.com/guide/ for some fake blogs data.
 
 #### Note: Create a group database and use the same database in connection string by replacing `groupXDatabase
+
+<!-- REGEX -->
+if(!valid.isValidObjectId(userId)){
+            return res.status(400).send({ status: false, message: "invalid userId" })
+        }
+const nameValidationRegex = /^[a-zA-Z -._\s]*$/
+
+<!-- for password -->
+/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/
+
+
+

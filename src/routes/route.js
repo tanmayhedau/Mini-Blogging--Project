@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const authorController=require('/controller/authorController')
+const authorController=require('../controllers/authorController')
+const blogController = require('../controllers/blogController')
 
 // dummy 
 router.get("/test-me", function (req, res) {
@@ -8,7 +9,10 @@ router.get("/test-me", function (req, res) {
 })
 
 //-------------------create author------------------
-router.post('/authers',authorController.createAuthor)
+router.post('/createAuthor',authorController.createAuthor)
+
+//-------------------create blog--------------------
+router.post('/createBlog', blogController.createBlog)
 
 
 module.exports = router

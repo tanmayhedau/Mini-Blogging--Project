@@ -13,12 +13,11 @@ const authorSchema = new mongoose.Schema({
       title: {
         type : String ,
         required : true,
-        enum : [Mr, Mrs, Miss]
+        enum : ["Mr", "Mrs", "Miss"]
       }, 
       email: {
         type : emailValidator.validate(),
-        required : true , 
-        unique : true
+        
       }, 
         password: {
             type : String,
@@ -27,7 +26,7 @@ const authorSchema = new mongoose.Schema({
 
 } , {timestamps: true} )
 
-module.exports = mogoose.model('author' , authorSchema)
+module.exports = mongoose.model('author' , authorSchema)
 
 
 
