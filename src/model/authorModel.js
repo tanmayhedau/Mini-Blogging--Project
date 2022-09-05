@@ -16,8 +16,10 @@ const authorSchema = new mongoose.Schema({
         enum : ["Mr", "Mrs", "Miss"]
       }, 
       email: {
-        type : emailValidator.validate(),
-        
+        type : String,
+        unique: true,
+        required: true,
+        match: [/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/]
       }, 
         password: {
             type : String,

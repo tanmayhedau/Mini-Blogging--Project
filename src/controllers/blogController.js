@@ -23,4 +23,8 @@ const createBlog = async function (req, res) {
     }
 }
 
+const getBlog = async function(req,res){
+    let 
+}
+
 module.exports.createBlog = createBlog
