@@ -14,5 +14,8 @@ router.post('/createAuthor',authorController.createAuthor)
 //-------------------create blog--------------------
 router.post('/createBlog', blogController.createBlog)
 
+router.get('/getBlog', blogController.getBlog)
+
+
 
 module.exports = router
