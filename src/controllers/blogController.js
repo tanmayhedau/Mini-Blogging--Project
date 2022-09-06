@@ -22,23 +22,7 @@ const createBlog = async function (req, res) {
         res.status(500).send({ msg: error.message })
     }
 }
-
-
-const blogDelete = async function (req, res) {
-    //     ### DELETE /blogs?queryParams
-    // - Delete blog documents by category, authorid, tag name, subcategory name, unpublished
-    // - If the blog document doesn't exist then return an HTTP status of 404 with a body like [this](#error-response-structure)
-    try {
-
-        const data = req.query
-        const deleteData = await blogModel.updateMany(data, { isDeleted: true }, { new: true })
-        if (deleteData.matchedCount == 0) return res.status(404).send({ status: 404, msg: "data not found" })
-        res.send(deleteData)
-    } catch (error) {
-        res.status(500).send({ status: false, msg: error.message })
-    }
-}
-
+//---------------------------getBlog-----------------
 
 const getBlog = async function (req, res) {
     try {
@@ -96,7 +80,46 @@ const getBlog = async function (req, res) {
     }
 };
 
+//--------------------------delete-phase-1---------------------------------
+
+const deleteBlog = async function (req, res) {
+    try {
+
+        let blogId = req.params.blogId
+
+        let blog = await blogModel.findById(blogId)
+
+        // console.log(blog)
+
+        if (!blog && blog.isDeleted == true) return res.status(404).send("Not valid blogId")
+
+        res.status(200).send({ status: 200 })
+
+    } catch (error) {
+        res.status(500).send({ msg: error.message })
+    }
+
+}
+
+
+//--------------------------delete-phase-2----------------------------------
+
+const blogDelete = async function (req, res) {
+    //     ### DELETE /blogs?queryParams
+    // - Delete blog documents by category, authorid, tag name, subcategory name, unpublished
+    // - If the blog document doesn't exist then return an HTTP status of 404 with a body like [this](#error-response-structure)
+    try {
+
+        const data = req.query
+        const deleteData = await blogModel.updateMany(data, { isDeleted: true }, { new: true })
+        if (deleteData.matchedCount == 0) return res.status(404).send({ status: 404, msg: "data not found" })
+        res.send(deleteData)
+    } catch (error) {
+        res.status(500).send({ status: false, msg: error.message })
+    }
+}
+
 module.exports.createBlog = createBlog
 module.exports.getBlog = getBlog
 module.exports.blogDelete = blogDelete
-
+module.exports.deleteBlog = deleteBlog 
