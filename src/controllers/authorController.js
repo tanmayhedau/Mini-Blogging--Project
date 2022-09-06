@@ -7,7 +7,7 @@ const createAuthor=async function(req,res){
     res.send(save)
    }
    catch(error){
-    res.status(400).send({msg : error.message})
+    res.status(500).send({msg : error.message})
    }
 }
 

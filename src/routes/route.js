@@ -15,4 +15,7 @@ router.post('/createAuthor',authorController.createAuthor)
 router.post('/createBlog', blogController.createBlog)
 
 
+
+//==================== blogDetet based on category, authorid, tag name, subcategory name, unpublished =============
+router.post('/blogs/delete', blogController.blogDelete)
 module.exports = router
