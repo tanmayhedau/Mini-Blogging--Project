@@ -80,6 +80,26 @@ const getBlog = async function (req, res) {
     }
 };
 
+//---------------------------Update Blog---------------
+
+
+const blogsUpdate = async (req, res) => {
+    try {
+        let id = req.params.blogid
+        let blogid = await blogModel.findById(id)
+        console.log(blogid);
+        if (blogid.isDeleted == true) {
+            res.status(404).send("unable to update")
+        }
+        blog = await blogModel.findOneAndUpdate({ _id: id }, { $set: req.body }).select({ title: 1, body: 1, tag: 1, subcategory: 1, isPublihed: true });
+        res.status(200).send(blog)
+
+
+    } catch (error) {
+        return res.status(500).send({ status: false, msg: error.message })
+    }
+}
+
 //--------------------------delete-phase-1---------------------------------
 
 const deleteBlog = async function (req, res) {
@@ -89,9 +109,18 @@ const deleteBlog = async function (req, res) {
 
         let blog = await blogModel.findById(blogId)
 
+        let data = blog.isDeleted
+        console.log(data)
+
         // console.log(blog)
 
-        if (!blog && blog.isDeleted == true) return res.status(404).send("Not valid blogId")
+        if (!blog) return res.status(404).send({ status: false, msg: "Blog does not exists" })
+
+        //If the blogId is not deleted (must have isDeleted false)
+       
+        if(data== true) return res.status(404).send({ status: false, msg: "blog document doesn't exists" })
+
+        // if (!blog && blog.isDeleted == true) return res.status(404).send("Not valid blogId")
 
         res.status(200).send({ status: 200 })
 

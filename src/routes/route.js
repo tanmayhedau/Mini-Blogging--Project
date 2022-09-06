@@ -19,7 +19,7 @@ router.get('/getBlog', blogController.getBlog)
 
 //--------------------Delete-Blog--------------
 
-router.delete('/deleteBlog' , blogController.deleteBlog)
+router.delete('/deleteBlog/:blogId' , blogController.deleteBlog)
 
 
 //==================== blogDetet based on category, authorid, tag name, subcategory name, unpublished =============
