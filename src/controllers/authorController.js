@@ -1,5 +1,6 @@
 const authorModel=require('../model/authorModel')
 // creating entries for author
+
 const createAuthor=async function(req,res){
    try{
     let data=req.body

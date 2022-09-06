@@ -62,9 +62,10 @@ const getBlog = async function (req, res) {
         if (subcategory) {
             let verifysubcategory = await blogModel.findOne({ subcategory: subcategory })
             if (!verifysubcategory) {
-                return res.status(400).send({ status: false, msg: 'No blogs in this category exist' })
+                return res.status(400).send({ status: false, msg: 'No blogs in this subcategory exist' })
             }
         }
+        filter = {...data, ...filter}
         let getSpecificBlogs = await blogModel.find(filter);
 
         if (getSpecificBlogs.length == 0) {
@@ -83,22 +84,22 @@ const getBlog = async function (req, res) {
 //---------------------------Update Blog---------------
 
 
-// const blogsUpdate = async (req, res) => {
-//     try {
-//         let id = req.params.blogid
-//         let blogid = await blogModel.findById(id)
-//         console.log(blogid);
-//         if (blogid.isDeleted == true) {
-//             res.status(404).send("unable to update")
-//         }
-//         blog = await blogModel.findOneAndUpdate({ _id: id }, { $set: req.body }).select({ title: 1, body: 1, tag: 1, subcategory: 1, isPublihed: true });
-//         res.status(200).send(blog)
-
-
-//     } catch (error) {
-//         return res.status(500).send({ status: false, msg: error.message })
-//     }
-// }
+const getUpdated=async function(req,res){
+    try{
+        let data=req.body
+        let blogId=req.params.blogId
+       let user=await blogModel.findById({_id:blogId})
+      if(!user||user.isDeleted==true) {
+        return res.status(404).send({status:false,msg:"error"})
+        }
+        let Confirm= await blogModel.findOneAndUpdate( {_id:blogId},{$set:{publishedAt:new Date(),isPublished:true},$push:{subcategory:data.subcategory,tags:data.tags}},{new:true,upsert:true})
+        res.status(200).send({status:true,msg:Confirm})
+      }catch(error){
+        res.status(500).send({status:false,error:error.message})
+    }
+    
+    
+    }
 
 //--------------------------delete-phase-1---------------------------------
 
@@ -150,5 +151,6 @@ const blogDelete = async function (req, res) {
 
 module.exports.createBlog = createBlog
 module.exports.getBlog = getBlog
+module.exports.getUpdated = getUpdated
 module.exports.blogDelete = blogDelete
 module.exports.deleteBlog = deleteBlog 

@@ -16,7 +16,7 @@ const blogSchema = new mongoose.Schema(
             required: true,
         },
         tags: {
-            type: String,
+            type: [String],
             enum: ["Book", "Friends", "Self help"]
         },
         category: {
