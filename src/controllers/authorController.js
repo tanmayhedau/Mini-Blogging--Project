@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken')
 const createAuthor=async function(req,res){
    try{
     let data=req.body
+   //  let fname = data.fname
+
     let save=await authorModel.create(data)
     res.send(save)
    }

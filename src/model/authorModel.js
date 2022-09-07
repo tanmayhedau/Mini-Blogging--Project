@@ -2,10 +2,12 @@ const mongoose = require('mongoose')
 const authorSchema = new mongoose.Schema({
      fname:{
         type : String ,
+        match : [/^[a-z ,.'-]+$/i],
         required : true
      },
       lname: {
         type : String ,
+        match : [/^[a-z ,.'-]+$/i],
         required : true
       }, 
       title: {

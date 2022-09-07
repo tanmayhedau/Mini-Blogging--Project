@@ -9,7 +9,7 @@ router.get("/test-me", function (req, res) {
 })
 
 //-------------------create author------------------
-router.post('/authers',authorController.createAuthor)
+router.post('/authors',authorController.createAuthor)
 
 //-------------------create blog--------------------
 router.post('/createBlog', blogController.createBlog)
