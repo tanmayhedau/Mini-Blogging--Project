@@ -29,4 +29,8 @@ router.delete('/deleteBlog/:blogId' , blogController.deleteBlog)
 //==================== blogDetet based on category, authorid, tag name, subcategory name, unpublished =============
 router.post('/blogs/delete', blogController.blogDelete)
 
+
+// -------------------- login --------------------------
+router.post("/login", authorController.login)
+
 module.exports = router

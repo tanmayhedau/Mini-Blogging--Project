@@ -65,7 +65,7 @@ const getBlog = async function (req, res) {
                 return res.status(400).send({ status: false, msg: 'No blogs in this subcategory exist' })
             }
         }
-        filter = {...data, ...filter}
+        filter = { ...data, ...filter }
         let getSpecificBlogs = await blogModel.find(filter);
 
         if (getSpecificBlogs.length == 0) {
@@ -84,22 +84,22 @@ const getBlog = async function (req, res) {
 //---------------------------Update Blog---------------
 
 
-const getUpdated=async function(req,res){
-    try{
-        let data=req.body
-        let blogId=req.params.blogId
-       let user=await blogModel.findById({_id:blogId})
-      if(!user||user.isDeleted==true) {
-        return res.status(404).send({status:false,msg:"error"})
+const getUpdated = async function (req, res) {
+    try {
+        let data = req.body
+        let blogId = req.params.blogId
+        let user = await blogModel.findById({ _id: blogId })
+        if (!user || user.isDeleted == true) {
+            return res.status(404).send({ status: false, msg: "error" })
         }
-        let Confirm= await blogModel.findOneAndUpdate( {_id:blogId},{$set:{publishedAt:new Date(),isPublished:true},$push:{subcategory:data.subcategory,tags:data.tags}},{new:true,upsert:true})
-        res.status(200).send({status:true,msg:Confirm})
-      }catch(error){
-        res.status(500).send({status:false,error:error.message})
+        let Confirm = await blogModel.findOneAndUpdate({ _id: blogId }, { $set: { publishedAt: new Date(), isPublished: true }, $push: { subcategory: data.subcategory, tags: data.tags } }, { new: true, upsert: true })
+        res.status(200).send({ status: true, msg: Confirm })
+    } catch (error) {
+        res.status(500).send({ status: false, error: error.message })
     }
-    
-    
-    }
+
+
+}
 
 //--------------------------delete-phase-1---------------------------------
 
@@ -118,8 +118,8 @@ const deleteBlog = async function (req, res) {
         if (!blog) return res.status(404).send({ status: false, msg: "Blog does not exists" })
 
         //If the blogId is not deleted (must have isDeleted false)
-       
-        if(data== true) return res.status(404).send({ status: false, msg: "blog document doesn't exists" })
+
+        if (data == true) return res.status(404).send({ status: false, msg: "blog document doesn't exists" })
 
         // if (!blog && blog.isDeleted == true) return res.status(404).send("Not valid blogId")
 
