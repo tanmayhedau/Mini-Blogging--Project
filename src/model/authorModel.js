@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 const authorSchema = new mongoose.Schema({
      fname:{
         type : String ,
-        match : [/^[a-z ,.'-]+$/i],
+        match : [/^[a-z ,.'-]+$/i],  // regex for fname
         required : true
      },
       lname: {
         type : String ,
-        match : [/^[a-z ,.'-]+$/i],
+        match : [/^[a-z ,.'-]+$/i], // regex for lname
         required : true
       }, 
       title: {
@@ -18,11 +18,12 @@ const authorSchema = new mongoose.Schema({
       email: {
         type : String,
         unique: true,
-        match: [/^(?:[a-zA-Z]{3})\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/],
+        match: [/^(?:[a-zA-Z]{3})\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/], // regex for email
         required: true
       }, 
         password: {
             type : String,
+            //match :[/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"/],  // regex for password
             required : true
         }
 

@@ -63,13 +63,18 @@ example of a query url: blogs?filtername=filtervalue&f2=fv2
 - Allow an author to login with their email and password. On a successful login attempt return a JWT token contatining the authorId in response body like [this](#Successful-login-Response-structure)
 - If the credentials are incorrect return a suitable error message with a valid HTTP status code
 
-### Authentication
+### Authentication - process to verify user Identity
+{authentication is a process of verify the user identity}
+
 - Add an authorisation implementation for the JWT token that validates the token before every protected endpoint is called. If the validation fails, return a suitable error message with a corresponding HTTP status code
 - Protected routes are create a blog, edit a blog, get the list of blogs, delete a blog(s)
 - Set the token, once validated, in the request - `x-api-key`
 - Use a middleware for authentication purpose.
 
-### Authorisation
+### Authorisation -  to verify what specific file or data has priviledge to 
+{Authorization is the function of specifying access rights/privileges to resources}
+{authorization is the process of verifying what specific application, files and data a user has access to}
+
 - Make sure that only the owner of the blogs is able to edit or delete the blog.
 - In case of unauthorized access return an appropirate error message.
 

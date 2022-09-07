@@ -6,6 +6,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 const createBlog = async function (req, res) {
     try {
         let data = req.body
+        if(Object.keys(data).length == 0) return res.send({msg : "Enter data"})
         let authorId = req.body.authorId
         let isValid = mongoose.Types.ObjectId.isValid(authorId)
         if (isValid == false) return res.send({ msg: "Invalid length of authorId" })
