@@ -88,10 +88,11 @@ const getBlog = async function (req, res) {
 const getUpdated = async function (req, res) {
     try {
         let data = req.body
+        if(Object.keys(data).length == 0) return res.status(400).send({msg:"You have not entered any data to modify"})
         let blogId = req.params.blogId
         let user = await blogModel.findById({ _id: blogId })
         if (!user || user.isDeleted == true) {
-            return res.status(404).send({ status: false, msg: "error" })
+            return res.status(404).send({ status: false, msg: "User not found" })
         }
         let Confirm = await blogModel.findOneAndUpdate({ _id: blogId }, { $set: { publishedAt: new Date(), isPublished: true }, $push: { subcategory: data.subcategory, tags: data.tags } }, { new: true, upsert: true })
         res.status(201).send({ status: true, msg: Confirm })
@@ -113,8 +114,6 @@ const deleteBlog = async function (req, res) {
 
         let data = blog.isDeleted
         console.log(data)
-
-        // console.log(blog)
 
         if (!blog) return res.status(404).send({ status: false, msg: "Blog does not exists" })
 
@@ -142,14 +141,11 @@ const deleteByQuery = async function (req, res) {
     try {
 
         const data = req.query
-        let category = data.category
-        let result = await blogModel.find({ category: category })
-        let author = result.authorId
-        if (author == decodedtoken.authorId) {
-            const deleteData = await blogModel.updateMany(data, { isDeleted: true }, { new: true })
-            if (deleteData.matchedCount == 0) return res.status(404).send({ status: 404, msg: "data not found" })
-            res.send(deleteData)
-        }
+     
+        const deleteData = await blogModel.updateMany(data, { isDeleted: true }, { new: true })
+        if (deleteData.matchedCount == 0) return res.status(404).send({ status: 404, msg: "data not found" })
+        res.send(deleteData)
+
     } catch (error) {
         res.status(500).send({ status: false, msg: error.message })
     }

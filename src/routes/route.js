@@ -3,6 +3,7 @@ const router = express.Router();
 const authorController=require('../controllers/authorController')
 const blogController = require('../controllers/blogController')
 const auth = require('../middlewares/auth')
+const validators = require('../validators/validator')
 
 
 // dummy 
@@ -11,7 +12,7 @@ router.get("/test-me", function (req, res) {
 })
 
 //-------------------create author------------------
-router.post('/authors',authorController.createAuthor)
+router.post('/authors',validators.validate,authorController.createAuthor)
 
 //-------------------create blog--------------------
 router.post('/createBlog',auth.authenticate, blogController.createBlog)
@@ -29,7 +30,7 @@ router.delete('/deleteBlog/:blogId' ,auth.authenticate, auth.authorise,blogContr
 
 
 //==================== blogDetet based on category, authorid, tag name, subcategory name, unpublished =============
-router.post('/blogs',auth.authenticate, blogController.deleteByQuery)
+router.post('/blogs',auth.authoriseforDelete, blogController.deleteByQuery)
 
 
 // -------------------- login --------------------------
