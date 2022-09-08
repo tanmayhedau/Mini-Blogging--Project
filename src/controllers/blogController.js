@@ -126,7 +126,7 @@ const deleteBlog = async function (req, res) {
 
         // if (!blog && blog.isDeleted == true) return res.status(404).send("Not valid blogId")
 
-        res.status(201).send({ status: 201 , msg :"blog has been deleted" })
+        res.status(201).send({ status: 201 , msg :"blog has been deleted successfully" })
 
     } catch (error) {
         res.status(500).send({ msg: error.message })

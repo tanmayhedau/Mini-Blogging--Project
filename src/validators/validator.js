@@ -9,7 +9,7 @@ const validate = function (req, res, next) {
 
         let regexFname = /^[a-z.'-]+$/i    // regex for fname
         if (!data.fname.match(regexFname))
-        // data.fname
+            // data.fname
             return res.status(400).send({ msg: "Enter valid FirstName" })
 
         let regexLname = /^[a-z.'-]+$/i   // regex for lname
@@ -20,19 +20,18 @@ const validate = function (req, res, next) {
         if (!data.email.match(regexEmail))
             return res.status(400).send({ msg: "Enter valid emailId" })
 
-    let regexPassword =/^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=.!<>?*]).*$/    // regex for password
+        let regexPassword = /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=.!<>?*]).*$/    // regex for password
         if (!data.password.match(regexPassword))
             return res.status(400).send({ msg: "The password must contain atleast One UpperCase , One LowerCase , One Numeric Value and One Special Character." })
 
-
         next()
     } catch (error) {
-        res.status(500).send({ status: false, msg: error })
+        res.status(500).send({ status: false, msg: error.message })
     }
 }
 
-const blogValidator = async function (req,res,next){
-    try{
+const blogValidator = function (req, res, next) {
+    try {
         let data = req.body
         if (Object.keys(data).length == 0) return res.send({ msg: "Enter data to create blog" })
         if (!data.body) return res.status(400).send({ msg: "Enter body" })
@@ -42,16 +41,16 @@ const blogValidator = async function (req,res,next){
 
         const categoryArr = ["technology", "entertainment", "lifeStyle", "food", "fashion"]
         const categoryData = categoryArr.filter(word => word == data.category)
-       
         if (categoryData.length == 0) return res.send({ msg: "Enter among these category - technology, entertainment, lifeStyle, food, fashion" })
+
         const tagArray = ["Book", "Friends", "Self help"]
         const tagData = tagArray.filter(word => word == data.tags)
         if (tagData.length == 0) return res.status(400).send({ msg: "Enter among these tags -Book, Friends, Self help" })
-        
+
         next()
     }
     catch (error) {
-        res.status(500).send({ status: false, msg: error })
+        res.status(500).send({ status: false, msg: error.message })
     }
 }
 
