@@ -23,7 +23,7 @@ router.post("/login", authorController.login)
 
 //-------------------create blog----------------------------------------------
 
-router.post('/createBlog',auth.authenticate, blogController.createBlog)
+router.post('/createBlog',auth.authenticate, validators.blogValidator, blogController.createBlog)
 
 //----------------------get-blog----------------------------------------------
 

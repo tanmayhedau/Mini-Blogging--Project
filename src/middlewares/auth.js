@@ -46,7 +46,7 @@ const authoriseforDelete = async function (req, res, next) {
         let data = req.query
 
         // length of data object must be grater than Zero
-        if (Object.keys(data).length == 0) return res.status(400).send("Please enter the data")
+        if (Object.keys(data).length == 0) return res.status(400).send({msg :"Please enter the filter for deletion"})
 
         //destructure the array of variable of data
         const { category, authorId, tags, subcategory, isPublished } = data
@@ -56,16 +56,16 @@ const authoriseforDelete = async function (req, res, next) {
         if (subcategory) { mainData.subcategory=subcategory } 
         if (isPublished) { mainData.isPublished=isPublished } 
         if (authorId) { mainData.authorId= authorId } 
-
+        
         // must be assign at least one items in the main data
         if(Object.keys(mainData).length==0) return res.send({status:false,msg:"please enter the valid keys"})
-
+        
         mainData.isDeleted = false
         mainData.isPublished = true
 
         let result = await blogModel.findOne(mainData)
-        if (result.length == 0) return res.status(404).send({ msg: "No data found to be deleted" })
-
+       
+        if (result == null) return res.status(404).send({ msg: "No data found to be deleted" })
         const id=result.authorId.toString()
        
         if (priviledgedAuthor != id) return res.send({ msg: "You can not do this operation" })

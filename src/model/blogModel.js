@@ -22,7 +22,7 @@ const blogSchema = new mongoose.Schema(
         category: {
             type: String,
             required: true,
-            enum: ["technology", "entertainment", "life style", "food", "fashion"]
+            enum: ["technology", "entertainment", "lifeStyle", "food", "fashion"]
         },
         subcategory: {
             type: [ String],
