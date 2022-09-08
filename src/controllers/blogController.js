@@ -6,7 +6,13 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 const createBlog = async function (req, res) {
     try {
         let data = req.body
-        if (Object.keys(data).length == 0) return res.send({ msg: "Enter data" })
+        if (Object.keys(data).length == 0) return res.send({ msg: "Enter data to create blog" })
+        if (!data.body) return res.send({ msg: "Enter body" })
+        if (!data.authorId) return res.send({ msg: "Enter authorId" })
+        if (!data.category) return res.send({ msg: "Enter category" })
+        if (!data.subcategory) return res.send({ msg: "Enter subcategory" })
+
+
         let authorId = req.body.authorId
         let isValid = mongoose.Types.ObjectId.isValid(authorId)
         if (isValid == false) return res.send({ msg: "Invalid length of authorId" })
@@ -91,7 +97,7 @@ const getBlog = async function (req, res) {
 const getUpdated = async function (req, res) {
     try {
         let data = req.body
-        if(Object.keys(data).length == 0) return res.status(400).send({msg:"You have not entered any data to modify"})
+        if (Object.keys(data).length == 0) return res.status(400).send({ msg: "You have not entered any data to modify" })
         let blogId = req.params.blogId
         let user = await blogModel.findById({ _id: blogId })
         if (!user || user.isDeleted == true) {

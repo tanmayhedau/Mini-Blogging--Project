@@ -20,7 +20,7 @@ const validate = function (req, res, next) {
         if (!data.email.match(regexEmail))
             return res.status(400).send({ msg: "Enter valid emailId" })
 
-        let regexPassword =/^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).*$/    // regex for password
+    let regexPassword =/^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=.!<>?*]).*$/    // regex for password
         if (!data.password.match(regexPassword))
             return res.status(400).send({ msg: "The password must contain atleast One UpperCase , One LowerCase , One Numeric Value and One Special Character." })
 
