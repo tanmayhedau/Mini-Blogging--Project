@@ -11,29 +11,40 @@ router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
 })
 
-//-------------------create author------------------
+//-------------------create author--------------------------------------------
+
 router.post('/authors',validators.validate,authorController.createAuthor)
 
-//-------------------create blog--------------------
+
+// -------------------- login -------------------------------------------------
+
+router.post("/login", authorController.login)
+
+
+//-------------------create blog----------------------------------------------
+
 router.post('/createBlog',auth.authenticate, blogController.createBlog)
 
-//----------------------get-blog-------------------
+//----------------------get-blog----------------------------------------------
+
 router.get('/getBlog',auth.authenticate, blogController.getBlog)
 
-// ------------------- update blog --------------
+// ------------------- update blog -------------------------------------------
+
 router.put('/blogs/:blogId',auth.authenticate, auth.authorise, blogController.getUpdated)
 
 
-//--------------------Delete-Blog--------------
+//--------------------Delete-Blog----------------------------------------------
 
 router.delete('/deleteBlog/:blogId' ,auth.authenticate, auth.authorise,blogController.deleteBlog)
 
 
-//==================== blogDetet based on category, authorid, tag name, subcategory name, unpublished =============
+//----------------- blogDelete based on category, authorid, tag name, subcategory name, unpublished ------------
+
 router.post('/blogs',auth.authoriseforDelete, blogController.deleteByQuery)
 
 
-// -------------------- login --------------------------
-router.post("/login", authorController.login)
+
+
 
 module.exports = router

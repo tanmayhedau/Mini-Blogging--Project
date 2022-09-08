@@ -6,24 +6,6 @@ const jwt = require('jsonwebtoken')
 const createAuthor = async function (req, res) {
    try {
       let data = req.body
-      // if (Object.keys(data).length == 0) return res.status(400).send({ msg: "You have not entered any data" })
-
-      // let regexFname = /^[a-z.'-]+$/i    // regex for fname
-      // if (!data.fname.match(regexFname))
-      //    return res.status(400).send({ msg: "Enter valid FirstName" })
-
-      // let regexLname = /^[a-z.'-]+$/i   // regex for lname
-      // if (!data.lname.match(regexLname))
-      //    return res.status(400).send({ msg: "Enter valid LastName" })
-
-      // let regexEmail = /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/ // regex for email
-      // if (!data.email.match(regexEmail))
-      //    return res.status(400).send({ msg: "Enter valid emailId " })
-
-      // let regexPassword = /^(?=.*[A-Z])(?=.*[A-Z])(?=.{8,})/ // regex for password
-      // if (!data.password.match(regexPassword))
-      //    return res.status(400).send({ msg: "Enter valid password" })
-
       let save = await authorModel.create(data)
       res.send(save)
    }
@@ -31,6 +13,8 @@ const createAuthor = async function (req, res) {
       res.status(500).send({ msg: error.message })
    }
 }
+
+// login for author
 
 const login = async function (req, res) {
 
@@ -63,6 +47,7 @@ const login = async function (req, res) {
 // exporting createAuthor-----
 module.exports.createAuthor = createAuthor
 
+// ecporting login -----------
 module.exports.login = login
 
 

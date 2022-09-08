@@ -33,6 +33,7 @@ const authorise = async function (req, res, next) {
     next()
 }
 
+
 const authoriseforDelete = async function (req, res, next) {
     try {
         let token = req.headers["x-api-key"]
@@ -68,12 +69,12 @@ const authoriseforDelete = async function (req, res, next) {
         const id=result.authorId.toString()
        
         if (priviledgedAuthor != id) return res.send({ msg: "You can not do this operation" })
-        
+
         next()
         
     }
     catch (error) {
-        res.status(500).send({ msg: error.message, name: "ahsis" })
+        res.status(500).send({ msg: error.message })
     }
 }
 module.exports.authenticate = authenticate
