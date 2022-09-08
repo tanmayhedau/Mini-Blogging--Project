@@ -29,7 +29,7 @@ router.delete('/deleteBlog/:blogId' ,auth.authenticate, auth.authorise,blogContr
 
 
 //==================== blogDetet based on category, authorid, tag name, subcategory name, unpublished =============
-router.post('/blogs/delete',auth.authenticate, blogController.blogDelete)
+router.post('/blogs',auth.authenticate, blogController.deleteByQuery)
 
 
 // -------------------- login --------------------------
