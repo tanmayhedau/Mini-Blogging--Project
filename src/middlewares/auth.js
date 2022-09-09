@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken')
 const blogModel = require('../model/blogModel')
 
-const authenticate =  function (req, res, next) {
+const authenticate = function (req, res, next) {
     try {
         let token = req.headers["x-api-key"]
 
@@ -23,8 +23,9 @@ const authorise = async function (req, res, next) {
     let blogId = req.params.blogId
 
     if (blogId.length == 24) {
-        
+
         let data = await blogModel.findById(blogId)    //search doc with that given blogId
+        if (data == null) return res.send({ msg: "No blog available with this BlogId" })
         let loggedInAuthor = data.authorId.toString()  //person who want to access to resource
         let priviledgedAuthor = decodedtoken.authorId   //person who is loggedIn (has token)
 
@@ -45,7 +46,7 @@ const authoriseforDelete = async function (req, res, next) {
         decodedtoken = jwt.verify(token, "Project -1 Blogging Project")
         if (!decodedtoken) return res.send({ msg: "Invalid token" })
 
-        let priviledgedAuthor = decodedtoken.authorId
+        let priviledgedAuthor = decodedtoken.authorId      //person who is loggedIn (has token)
         let data = req.query
 
         // length of data object must be grater than Zero
@@ -67,11 +68,11 @@ const authoriseforDelete = async function (req, res, next) {
         mainData.isPublished = true
 
         let result = await blogModel.findOne(mainData)
-
         if (result == null) return res.status(404).send({ msg: "No data found to be deleted" })
-        const id = result.authorId.toString()
 
-        if (priviledgedAuthor != id) return res.send({ msg: "You can not do this operation" })
+        const id = result.authorId.toString()          //person who want to access to resource
+
+        if (priviledgedAuthor != id) return res.send({ msg: "You can not other author's data" })
 
         next()
 

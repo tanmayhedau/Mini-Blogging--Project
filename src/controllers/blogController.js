@@ -93,16 +93,15 @@ const getUpdated = async function (req, res) {
 
         let blogId = req.params.blogId
         let user = await blogModel.findById({ _id: blogId })
+
         if (!user || user.isDeleted == true) {
             return res.status(404).send({ status: false, msg: "Blog data not found" })
         }
-        let result = await blogModel.findOneAndUpdate({ _id: blogId }, { $set: { publishedAt: new Date(), isPublished: true }, $push: { subcategory: data.subcategory, tags: data.tags } }, { new: true, upsert: true })
+        let result = await blogModel.findOneAndUpdate({ _id: blogId }, { $set: { publishedAt: new Date(), isPublished: true, title: data.title, body: data.body }, $push: { subcategory: data.subcategory, tags: data.tags } }, { new: true, upsert: true })
         res.status(201).send({ status: true, msg: result })
     } catch (error) {
         res.status(500).send({ status: false, error: error.message })
     }
-
-
 }
 
 //--------------------------delete-phase-1---------------------------------
@@ -115,19 +114,11 @@ const deleteBlog = async function (req, res) {
 
         let blog = await blogModel.findById(blogId)
 
-        let data = blog.isDeleted
-        console.log(data)
-
-        if (!blog) return res.status(404).send({ status: false, msg: "Blog does not exists" })
-
-        //If the blogId is not deleted (must have isDeleted false)
-
-        if (data == true) return res.status(404).send({ status: false, msg: "blog document doesn't exists" })
-
-        // if (!blog && blog.isDeleted == true) return res.status(404).send("Not valid blogId")
-
-        res.status(201).send({ status: 201 , msg :"blog has been deleted successfully" })
-
+        if (!blog  || blog.isDeleted == true) return res.status(404).send({msg :"blog document doesn't exists"})
+    
+        let data = await blogModel.findOneAndUpdate({ _id: blogId }, { isDeleted: true }, { new: true })
+       
+        res.status(201).send({ status: 201, msg: "blog has been deleted successfully" })
     } catch (error) {
         res.status(500).send({ msg: error.message })
     }
@@ -136,6 +127,7 @@ const deleteBlog = async function (req, res) {
 
 
 //--------------------------delete-phase-2----------------------------------
+
 
 const deleteByQuery = async function (req, res) {
     try {
