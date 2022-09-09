@@ -9,7 +9,6 @@ const validate = function (req, res, next) {
 
         let regexFname = /^[a-z.'-]+$/i    // regex for fname
         if (!data.fname.match(regexFname))
-            // data.fname
             return res.status(400).send({ msg: "Enter valid FirstName" })
 
         let regexLname = /^[a-z.'-]+$/i   // regex for lname

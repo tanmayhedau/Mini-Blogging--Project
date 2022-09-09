@@ -7,10 +7,10 @@ const createAuthor = async function (req, res) {
    try {
       let data = req.body
       let save = await authorModel.create(data)
-      res.send(save)
+     return res.status(201).send({msg :save})
    }
    catch (error) {
-      res.status(500).send({ msg: error.message })
+      return res.status(500).send({ msg: error.message })
    }
 }
 
@@ -36,7 +36,7 @@ const login = async function (req, res) {
       "Project -1 Blogging Project"
    )
    res.setHeader("x-api-key", token)
-   res.send({ status: true, msg: token })
+  return res.send({ status: true, msg: token })
 
 }
 

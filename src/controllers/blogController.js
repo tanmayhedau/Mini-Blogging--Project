@@ -7,7 +7,7 @@ const createBlog = async function (req, res) {
     try {
         let data = req.body
         let authorId = data.authorId
-        let isValid = mongoose.Types.ObjectId.isValid(authorId)
+        let isValid = ObjectId.isValid(authorId)
         if (isValid == false) return res.send({ msg: "Invalid length of authorId" })
 
         let result = await authorModel.findById(authorId)
@@ -15,11 +15,11 @@ const createBlog = async function (req, res) {
         if (!result) return res.send({ msg: "Enter Vaild AuthorId" })
 
         let finalData = await blogModel.create(data)
-        res.status(201).send({ data: finalData })
+        return res.status(201).send({ data: finalData })
 
     }
     catch (error) {
-        res.status(500).send({ msg: error.message })
+        return res.status(500).send({ msg: error.message })
     }
 }
 
@@ -45,7 +45,7 @@ const getBlog = async function (req, res) {
         }
 
         if (authorId) {
-            let isValid = mongoose.Types.ObjectId.isValid(authorId)
+            let isValid = ObjectId.isValid(authorId)
             if (isValid == false) return res.send({ msg: "Invalid length of authorId" })
 
             let verifyauthorId = await blogModel.findOne({ authorId: authorId })
@@ -78,7 +78,7 @@ const getBlog = async function (req, res) {
         }
     }
     catch (error) {
-        res.status(500).send({ status: false, err: error.message });
+       return res.status(500).send({ status: false, err: error.message });
     }
 };
 
@@ -98,9 +98,9 @@ const getUpdated = async function (req, res) {
             return res.status(404).send({ status: false, msg: "Blog data not found" })
         }
         let result = await blogModel.findOneAndUpdate({ _id: blogId }, { $set: { publishedAt: new Date(), isPublished: true, title: data.title, body: data.body }, $push: { subcategory: data.subcategory, tags: data.tags } }, { new: true, upsert: true })
-        res.status(201).send({ status: true, msg: result })
+        return res.status(201).send({ status: true, msg: result })
     } catch (error) {
-        res.status(500).send({ status: false, error: error.message })
+       return res.status(500).send({ status: false, error: error.message })
     }
 }
 
@@ -118,9 +118,9 @@ const deleteBlog = async function (req, res) {
     
         let data = await blogModel.findOneAndUpdate({ _id: blogId }, { isDeleted: true }, { new: true })
        
-        res.status(201).send({ status: 201, msg: "blog has been deleted successfully" })
+        return res.status(201).send({ status: 201, msg: "blog has been deleted successfully" })
     } catch (error) {
-        res.status(500).send({ msg: error.message })
+        return res.status(500).send({ msg: error.message })
     }
 
 }
@@ -135,10 +135,10 @@ const deleteByQuery = async function (req, res) {
         const data = req.query
         const deleteData = await blogModel.updateMany(data, { isDeleted: true }, { new: true })
         if (deleteData.matchedCount == 0) return res.status(404).send({ status: 404, msg: "data not found" })
-        res.send(deleteData)
+        return res.status(201).send(deleteData)
 
     } catch (error) {
-        res.status(500).send({ status: false, msg: error.message })
+        return res.status(500).send({ status: false, msg: error.message })
     }
 }
 

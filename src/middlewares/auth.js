@@ -19,8 +19,8 @@ const authenticate = function (req, res, next) {
 }
 
 const authorise = async function (req, res, next) {
-
-    let blogId = req.params.blogId
+try
+    {let blogId = req.params.blogId
 
     if (blogId.length == 24) {
 
@@ -34,6 +34,8 @@ const authorise = async function (req, res, next) {
     }
     else {
         return res.status(400).send({ msg: "Invalid length of blogId" })
+    }}catch(error){
+        res.status(500).send(error.message)
     }
 }
 
