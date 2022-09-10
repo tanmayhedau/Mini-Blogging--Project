@@ -25,8 +25,7 @@ const blogSchema = new mongoose.Schema(
             enum: ["technology", "entertainment", "lifeStyle", "food", "fashion"]
         },
         subcategory: {
-            type: [ String],
-            required : true
+            type: [ String]
         },
 
         deletedAt: {

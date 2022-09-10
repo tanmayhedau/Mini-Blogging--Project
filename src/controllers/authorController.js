@@ -21,10 +21,10 @@ const login = async function (req, res) {
    let emailId = req.body.email
    let password = req.body.password
 
-   if (!emailId || !password) return res.status(400).send({ msg: "Enter emailId and password" })
+   if (!emailId || !password) return res.status(400).send({ status : false, msg: "Enter emailId and password" })
 
-   let author = await authorModel.findOne({ email: emailId }, { password: password })
-   if (!author) return res.status(400).send({ msg: "Invalid email or password" })
+   let author = await authorModel.findOne({ email: emailId , password: password })
+   if (!author) return res.status(400).send({status : false, msg: "Invalid email or password" })
 
    let token = jwt.sign(
       {
@@ -34,6 +34,7 @@ const login = async function (req, res) {
 
       },
       "Project -1 Blogging Project"
+      
    )
    res.setHeader("x-api-key", token)
   return res.send({ status: true, msg: token })

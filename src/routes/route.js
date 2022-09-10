@@ -41,7 +41,7 @@ router.delete('/deleteBlog/:blogId' ,auth.authenticate, auth.authorise,blogContr
 
 //----------------- blogDelete based on category, authorid, tag name, subcategory name, unpublished ------------
 
-router.post('/blogs',auth.authoriseforDelete, blogController.deleteByQuery)
+router.post('/blogs',auth.authenticate, auth.authoriseforDelete, blogController.deleteByQuery)
 
 
 
