@@ -13,8 +13,9 @@ const createBlog = async function (req, res) {
         let result = await authorModel.findById(authorId)
 
         if (!result) return res.status(400).send({status: false, msg: "Enter registered AuthorId only!!" })
-        if(data.isPublished == true){
-            publishedAt = Date.now()
+        if(data.isPublished == true || data.isDeleted == true){
+            data.publishedAt = Date.now()
+            data.deletedAt = Date.now()
         }
 
         let finalData = await blogModel.create(data)
