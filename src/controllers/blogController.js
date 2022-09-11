@@ -13,6 +13,9 @@ const createBlog = async function (req, res) {
         let result = await authorModel.findById(authorId)
 
         if (!result) return res.status(400).send({status: false, msg: "Enter registered AuthorId only!!" })
+        if(data.isPublished == true){
+            publishedAt = Date.now()
+        }
 
         let finalData = await blogModel.create(data)
         return res.status(201).send({status: true, data: finalData })
@@ -35,7 +38,7 @@ const getBlog = async function (req, res) {
 
         };
 
-        const { category, subcategory, tags, authorId } = data
+        const { category, subcategory, tags, authorId , isPublished} = data
 
         if (category) {
             let verifyCategory = await blogModel.findOne({ category: category })
@@ -68,6 +71,7 @@ const getBlog = async function (req, res) {
                 return res.status(400).send({ status: false, msg: 'No blogs in this subcategory exist' })
             }
         }
+
         filter = { ...data, ...filter }
         let getSpecificBlogs = await blogModel.find(filter);
 
@@ -118,7 +122,7 @@ const deleteBlog = async function (req, res) {
 
         if (!blog  || blog.isDeleted == true) return res.status(404).send({status: false,msg :"blog document doesn't exists"})
     
-        let data = await blogModel.findOneAndUpdate({ _id: blogId }, { isDeleted: true }, { new: true })
+        let data = await blogModel.findOneAndUpdate({ _id: blogId }, { isDeleted: true , deletedAt : Date.now()}, { new: true })
        
         return res.status(201).send({ status: 201, msg: `blog has been deleted successfully` })
     } catch (error) {
