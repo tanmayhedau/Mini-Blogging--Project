@@ -13,7 +13,7 @@ router.get("/test-me", function (req, res) {
 
 //-------------------create author--------------------------------------------
 
-router.post('/authors',validators.validate,authorController.createAuthor)
+router.post('/authors',validators.authorValidator,authorController.createAuthor)
 
 
 // -------------------- login -------------------------------------------------
@@ -41,7 +41,7 @@ router.delete('/deleteBlog/:blogId' ,auth.authenticate, auth.authorise,blogContr
 
 //----------------- blogDelete based on category, authorid, tag name, subcategory name, unpublished ------------
 
-router.post('/blogs',auth.authenticate, auth.authoriseforDelete, blogController.deleteByQuery)
+router.post('/blogs', auth.authoriseforDelete, blogController.deleteByQuery)
 
 
 

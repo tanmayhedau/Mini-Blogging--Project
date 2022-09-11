@@ -37,7 +37,7 @@ const login = async function (req, res) {
       
    )
    res.setHeader("x-api-key", token)
-  return res.send({ status: true, msg: token })
+  return res.status(201).send({ status: true, msg: token })
 
 }
 

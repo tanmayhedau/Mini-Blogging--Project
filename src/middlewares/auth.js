@@ -14,9 +14,8 @@ const authenticate = function (req, res, next) {
         decodedtoken = jwt.verify(token, "Project -1 Blogging Project",
             (error, response) => {
                 if (error) {
-                    return res.status(400).send({ status: false, msg: "Invalid token" });
+                    return res.status(400).send({ status: false, msg: "Invalid token " });
                 }
-                req.headers.authorId = response.authorId
                 next()
             })
     }
@@ -32,9 +31,9 @@ const authorise = async function (req, res, next) {
         if (blogId.length == 24) {
 
             let data = await blogModel.findById(blogId)    //search doc with that given blogId
-            if (data == null) return res.send({ msg: "No blog available with this BlogId" })
+            if (data == null) return res.status(403).send({  status: false,msg: "No blog available with this BlogId" })
             let loggedInAuthor = data.authorId.toString()  //person who want to access to resource
-            let priviledgedAuthor = req.headers.authorId   //person who is loggedIn (has token)
+            let priviledgedAuthor = decodetoken.authorId   //person who is loggedIn (has token)
 
             if (loggedInAuthor != priviledgedAuthor) return res.status(403).send({ status: false, msg: "You are not authorised for this operation" })
             next()
@@ -50,13 +49,13 @@ const authorise = async function (req, res, next) {
 
 const authoriseforDelete = async function (req, res, next) {
     try {
-        // let token = req.headers["x-api-key"]
-        // if (!token) return res.status(401).send({ status: false, msg: "Token must be present" })
+        let token = req.headers["x-api-key"]
+        if (!token) return res.status(401).send({ status: false, msg: "Token must be present" })
 
-        // decodedtoken = jwt.verify(token, "Project -1 Blogging Project")
+        decodedtoken = jwt.verify(token, "Project -1 Blogging Project")
 
 
-        let priviledgedAuthor = req.headers.authorId      //person who is loggedIn (has token)
+        let priviledgedAuthor = decodetoken.authorId      //person who is loggedIn (has token)
         let data = req.query
 
         // length of data object must be grater than Zero

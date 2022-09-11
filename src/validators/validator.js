@@ -1,20 +1,20 @@
 const authorModel = require("../model/authorModel")
 
 
-const validate = async function (req, res, next) {
+const authorValidator = async function (req, res, next) {
 
     try {
         data = req.body
 
-        if (Object.keys(data).length == 0) return res.status(400).send({ msg: "You have not entered any data" })
+        if (Object.keys(data).length == 0) return res.status(400).send({status : false, msg: "You have not entered any data" })
 
         let regexFname = /^[a-z.'-]+$/i    // regex for fname
         if (!data.fname.match(regexFname))
-            return res.status(400).send({ status : false, msg: "Enter valid FirstName in valid format" })
+            return res.status(400).send({ status : false, msg: "Enter FirstName in valid format" })
 
         let regexLname = /^[a-z.'-]+$/i   // regex for lname
         if (!data.lname.match(regexLname))
-            return res.status(400).send({ status : false, msg: "Enter valid LastName in valid format" })
+            return res.status(400).send({ status : false, msg: "Enter LastName in valid format" })
 
         let title = ["Mr", "Mrs", "Miss"]    // if wrong title entered
         let inputTitle = title.filter(word => word == data.title)
@@ -60,5 +60,5 @@ const blogValidator = function (req, res, next) {
     }
 }
 
-module.exports.validate = validate
+module.exports.authorValidator = authorValidator
 module.exports.blogValidator = blogValidator

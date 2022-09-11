@@ -8,7 +8,7 @@ const createBlog = async function (req, res) {
         let data = req.body
         let authorId = data.authorId
         let isValid = mongoose.Types.ObjectId.isValid(authorId)
-        if (isValid == false) return res.send({ msg: "Invalid length of authorId" })
+        if (isValid == false) return res.status(400).send({ msg: "Invalid length of authorId" })
 
         let result = await authorModel.findById(authorId)
 
@@ -39,7 +39,7 @@ const getBlog = async function (req, res) {
 
         };
 
-        const { category, subcategory, tags, authorId , isPublished} = data
+        const { category, subcategory, tags, authorId } = data
 
         if (category) {
             let verifyCategory = await blogModel.findOne({ category: category })
@@ -140,7 +140,7 @@ const deleteByQuery = async function (req, res) {
     try {
 
         const data = req.query
-        const deleteData = await blogModel.updateMany(data, { isDeleted: true }, { new: true })
+        const deleteData = await blogModel.updateMany(data, { isDeleted: true ,deletedAt : Date.now()}, { new: true })
         if (deleteData.matchedCount == 0) return res.status(404).send({ status: 404, msg: "data not found" })
         return res.status(201).send({status : true, msg :deleteData})
 
