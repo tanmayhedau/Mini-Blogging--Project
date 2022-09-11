@@ -16,6 +16,7 @@ const authenticate = function (req, res, next) {
                 if (error) {
                     return res.status(400).send({ status: false, msg: "Invalid token " });
                 }
+                req.headers.authorId = response.authorId
                 next()
             })
     }
@@ -49,13 +50,6 @@ const authorise = async function (req, res, next) {
 
 const authoriseforDelete = async function (req, res, next) {
     try {
-        let token = req.headers["x-api-key"]
-        if (!token) return res.status(401).send({ status: false, msg: "Token must be present" })
-
-        decodedtoken = jwt.verify(token, "Project -1 Blogging Project")
-
-
-        let priviledgedAuthor = decodetoken.authorId      //person who is loggedIn (has token)
         let data = req.query
 
         // length of data object must be grater than Zero
@@ -82,10 +76,6 @@ const authoriseforDelete = async function (req, res, next) {
 
         let result = await blogModel.findOne(mainData)
         if (result == null) return res.status(404).send({ status: false, msg: "No data found to be deleted" })
-
-        const id = result.authorId.toString()          //person who want to access to resource
-
-        if (priviledgedAuthor != id) return res.status(404).send({ status: false, msg: "You can not other author's data" })
 
         next()
 
