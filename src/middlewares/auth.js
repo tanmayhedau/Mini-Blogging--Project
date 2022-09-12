@@ -34,7 +34,7 @@ const authorise = async function (req, res, next) {
             let data = await blogModel.findById(blogId)    //search doc with that given blogId
             if (data == null) return res.status(403).send({  status: false,msg: "No blog available with this BlogId" })
             let loggedInAuthor = data.authorId.toString()  //person who want to access to resource
-            let priviledgedAuthor = decodetoken.authorId   //person who is loggedIn (has token)
+            let priviledgedAuthor = req.headers.authorId   //person who is loggedIn (has token)
 
             if (loggedInAuthor != priviledgedAuthor) return res.status(403).send({ status: false, msg: "You are not authorised for this operation" })
             next()
