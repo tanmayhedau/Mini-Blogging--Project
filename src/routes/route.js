@@ -23,11 +23,11 @@ router.post("/login", authorController.login)
 
 //-------------------create blog----------------------------------------------
 
-router.post('/createBlog',auth.authenticate, validators.blogValidator, blogController.createBlog)
+router.post('/blogs',auth.authenticate, validators.blogValidator, blogController.createBlog)
 
 //----------------------get-blog----------------------------------------------
 
-router.get('/getBlog',auth.authenticate, blogController.getBlog)
+router.get('/blogs',auth.authenticate, blogController.getBlog)
 
 // ------------------- update blog -------------------------------------------
 
@@ -36,12 +36,12 @@ router.put('/blogs/:blogId',auth.authenticate, auth.authorise, blogController.ge
 
 //--------------------Delete-Blog----------------------------------------------
 
-router.delete('/deleteBlog/:blogId' ,auth.authenticate, auth.authorise,blogController.deleteBlog)
+router.delete('/blogs/:blogId' ,auth.authenticate, auth.authorise,blogController.deleteBlog)
 
 
 //----------------- blogDelete based on category, authorid, tag name, subcategory name, unpublished ------------
 
-router.post('/blogs', auth.authoriseforDelete, blogController.deleteByQuery)
+router.delete('/blogs', auth.authoriseforDelete, blogController.deleteByQuery)
 
 
 

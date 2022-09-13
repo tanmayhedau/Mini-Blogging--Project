@@ -7,7 +7,7 @@ const createAuthor = async function (req, res) {
    try {
       let data = req.body
       let save = await authorModel.create(data)
-     return res.status(201).send({msg :save})
+     return res.status(201).send({status : true, data :save})
    }
    catch (error) {
       return res.status(500).send({ msg: error.message })
@@ -37,7 +37,7 @@ const login = async function (req, res) {
       
    )
    res.setHeader("x-api-key", token)
-  return res.status(201).send({ status: true, msg: token })
+  return res.status(201).send({ status: true, data : {"token" : token} })
 
 }
 
